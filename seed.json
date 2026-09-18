@@ -1,0 +1,11 @@
+[
+  {"trackId": 1, "trackName": "Cal AI - Calorie Tracker", "sellerName": "Viral Development LLC", "primaryGenreName": "Health & Fitness", "price": 0, "averageUserRating": 4.7, "userRatingCount": 48200, "releaseDate": "2024-04-08", "currentVersionReleaseDate": "2026-08-12"},
+  {"trackId": 2, "trackName": "Notewave - Notes & Tasks", "sellerName": "Notewave Labs", "primaryGenreName": "Productivity", "price": 0, "averageUserRating": 4.8, "userRatingCount": 31500, "releaseDate": "2023-06-01", "currentVersionReleaseDate": "2026-09-01"},
+  {"trackId": 3, "trackName": "LifeReset - Habit Tracker", "sellerName": "LifeReset Inc", "primaryGenreName": "Lifestyle", "price": 4.99, "averageUserRating": 4.6, "userRatingCount": 62100, "releaseDate": "2022-11-15", "currentVersionReleaseDate": "2026-07-20"},
+  {"trackId": 4, "trackName": "Mojo - AI Video Maker", "sellerName": "Mojo Studio", "primaryGenreName": "Photo & Video", "price": 0, "averageUserRating": 4.5, "userRatingCount": 88900, "releaseDate": "2021-03-10", "currentVersionReleaseDate": "2026-09-05"},
+  {"trackId": 5, "trackName": "Airlearn - Language Talk", "sellerName": "Airlearn Ltd", "primaryGenreName": "Education", "price": 0, "averageUserRating": 4.4, "userRatingCount": 12700, "releaseDate": "2023-09-22", "currentVersionReleaseDate": "2026-06-30"},
+  {"trackId": 6, "trackName": "Babbel Path - Learn Fast", "sellerName": "Babbel Path GmbH", "primaryGenreName": "Education", "price": 0, "averageUserRating": 4.3, "userRatingCount": 25400, "releaseDate": "2020-01-05", "currentVersionReleaseDate": "2026-08-28"},
+  {"trackId": 7, "trackName": "Wombo Dream - AI Art", "sellerName": "Wombo Studios", "primaryGenreName": "Graphics & Design", "price": 0, "averageUserRating": 4.2, "userRatingCount": 96300, "releaseDate": "2021-07-19", "currentVersionReleaseDate": "2026-05-11"},
+  {"trackId": 8, "trackName": "Azur Lane Planner", "sellerName": "Azur Works", "primaryGenreName": "Utilities", "price": 1.99, "averageUserRating": 4.1, "userRatingCount": 5300, "releaseDate": "2022-02-14", "currentVersionReleaseDate": "2026-04-02"},
+  {"trackId": 9, "trackName": "SnapCat - Filters & Fun", "sellerName": "SnapCat Team", "primaryGenreName": "Photo & Video", "price": 0, "averageUserRating": 4.0, "userRatingCount": 44800, "releaseDate": "2023-12-01", "currentVersionReleaseDate": "2026-09-10"}
+]
