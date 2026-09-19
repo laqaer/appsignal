@@ -5,9 +5,14 @@ from db import conn
 UA = {"User-Agent": "AppSignal-demo/1.0"}
 CHARTS = ["topfreeapplications", "topgrossingapplications", "toppaidapplications"]
 def get(url):
-    req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return json.load(r)
+    for attempt in range(2):
+        try:
+            req = urllib.request.Request(url, headers=UA)
+            with urllib.request.urlopen(req, timeout=30) as r:
+                return json.load(r)
+        except Exception:
+            if attempt: raise
+            time.sleep(1)
 def main(limit=50):
     db = conn()
     ts = int(time.time())
@@ -17,8 +22,11 @@ def main(limit=50):
         try:
             feed = get(f"https://itunes.apple.com/us/rss/{chart}/limit={limit}/json")
         except Exception as e:
-            print(f"WARN chart {chart}: {e}"); continue
-        for rank, e in enumerate(feed.get("feed", {}).get("entry", []), 1):
+            print(f"FAIL chart {chart}: {e}"); sys.exit(1)
+        entries = feed.get("feed", {}).get("entry", [])
+        if len(entries) < 40:
+            print(f"FAIL chart {chart}: only {len(entries)} entries"); sys.exit(1)
+        for rank, e in enumerate(entries, 1):
             try: tid = int(e["id"]["attributes"]["im:id"])
             except (KeyError, ValueError): continue
             ids.add(tid)
@@ -39,9 +47,11 @@ def main(limit=50):
             print(f"WARN lookup: {e}"); continue
         for x in res.get("results", []):
             if x.get("wrapperType") != "software": continue
-            db.execute("UPDATE apps SET name=?,seller=?,genre=?,price=?,artwork=? WHERE trackId=?",
+            shots = x.get("screenshotUrls") or x.get("ipadScreenshotUrls") or []
+            db.execute("UPDATE apps SET name=?,seller=?,genre=?,price=?,artwork=?,screenshots=?,description=? WHERE trackId=?",
                 (x.get("trackName"), x.get("sellerName"), x.get("primaryGenreName"),
-                 x.get("price", 0), x.get("artworkUrl100"), x["trackId"]))
+                 x.get("price", 0), x.get("artworkUrl100"), json.dumps(shots),
+                 x.get("description", ""), x["trackId"]))
             db.execute("UPDATE snapshots SET rating=?,rating_count=?,price=? WHERE trackId=? AND ts=?",
                 (x.get("averageUserRating"), x.get("userRatingCount"), x.get("price", 0), x["trackId"], ts))
         time.sleep(1)

@@ -26,8 +26,9 @@ python3 pipeline/ingest.py && python3 pipeline/estimate.py
 
 ## Real vs estimated vs demo
 
-- **Real:** chart ranks and app metadata from Apple's public RSS + iTunes lookup.
+- **Real:** chart ranks, app metadata, and App Store screenshots from Apple's public RSS + iTunes lookup.
 - **Est:** all download/revenue/velocity numbers (labeled `est`), derived from the method above.
-- **Demo:** Ads, Viral, Keywords, Onboarding tabs are stub placeholders.
+- **Keywords:** title/genre tokens. Not ranked search volume.
+- **Empty:** Ads (Meta Ad Library token) and Viral (YouTube Data API key).
 
 Not affiliated with appkittie.

@@ -28,3 +28,4 @@ ol.steps li { background: var(--card); border: 1px solid var(--line); border-rad
 .spin { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--line); border-top-color: var(--acc); border-radius: 50%; animation: sp .7s linear infinite; vertical-align: -2px; margin-right: 6px; }
 @keyframes sp { to { transform: rotate(360deg); } }
 @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+img.shot { max-width: 120px; height: auto; border-radius: 8px; margin: 4px; }

@@ -14,4 +14,7 @@ def conn():
     os.makedirs(os.path.dirname(DB), exist_ok=True)
     c = sqlite3.connect(DB)
     c.executescript(SCHEMA)
+    for col in ("screenshots TEXT", "description TEXT"):
+        try: c.execute(f"ALTER TABLE apps ADD COLUMN {col}")
+        except sqlite3.OperationalError: pass  # column exists
     return c

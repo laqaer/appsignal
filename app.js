@@ -1,5 +1,5 @@
 const $ = (s) => document.querySelector(s);
-const state = { seeds: [], list: [], cur: null, tab: "ads", live: null };
+const state = { seeds: [], list: [], cur: null, tab: "onb", live: null };
 
 const fmt = (n) => n >= 1e6 ? (n / 1e6).toFixed(1) + "M" : n >= 1e3 ? (n / 1e3).toFixed(0) + "K" : "" + (n || 0);
 const money = (n) => "$" + fmt(n);
@@ -8,7 +8,8 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<"
 const norm = (x) => x.est_dl_mo != null ? { trackId: x.trackId, trackName: x.name, sellerName: x.seller,
   primaryGenreName: x.genre, price: x.price || 0, averageUserRating: x.rating || 0,
   userRatingCount: x.rating_count || 0, rank: x.rank, chart: x.chart, rc_velocity: x.rc_velocity,
-  est_rev_mo: x.est_rev_mo, est_dl_mo: x.est_dl_mo, updated_ts: x.updated_ts, _est: true } : x;
+  est_rev_mo: x.est_rev_mo, est_dl_mo: x.est_dl_mo, updated_ts: x.updated_ts, _est: true,
+  screenshots: x.screenshots || [], keywords: x.keywords || [], description: x.description || "" } : x;
 const est = (a) => a._est ? { rev: a.est_rev_mo, dl: a.est_dl_mo } : demoEstimate(a);
 const estTag = (a) => a._est ? "est." : "demo";
 
@@ -17,7 +18,8 @@ function statusLine(n, src) { return `${n} app(s) · ${src}`; }
 
 function sortList(list) {
   const k = $("#sort").value;
-  const key = { rev: a => est(a).rev, dl: a => est(a).dl, rating: a => a.averageUserRating || 0 }[k];
+  const key = { rev: a => est(a).rev, dl: a => est(a).dl, rating: a => a.averageUserRating || 0,
+    vel: a => a.rc_velocity == null ? -1 : a.rc_velocity }[k];
   return [...list].sort((a, b) => key(b) - key(a));
 }
 
@@ -99,17 +101,29 @@ async function show(id) {
   });
   renderTab();
   render();
+  const p = new URLSearchParams(location.search);
+  p.set("id", String(id));
+  history.replaceState(null, "", "?" + p.toString());
   $("#detail").scrollIntoView({ behavior: "smooth" });
 }
 
 function renderTab() {
   const a = state.cur; if (!a) return;
   const t = state.tab;
-  if (t === "ads") $("#tab").innerHTML = `<p class="mut">Ad-creative intelligence is a demo here. Production: wire the Meta Ad Library API.</p>` +
-    sampleAds(a).map(x => `<div class="card"><b>${x.net}</b> · <span class="mut">${x.spend} (demo)</span><br>${esc(x.text)}</div>`).join("");
-  if (t === "viral") $("#tab").innerHTML = `<div class="empty">No viral videos tracked for ${esc(a.trackName)}. Demo empty state — production: TikTok/Shorts mention-matching pipeline.</div>`;
-  if (t === "kw") $("#tab").innerHTML = `<p class="mut">Keyword ideas are generated, not ranked. Production: daily ASO rank tracking.</p><div class="card">${sampleKeywords(a).map(esc).join(", ")}</div>`;
-  if (t === "onb") $("#tab").innerHTML = `<p class="mut">Generic onboarding skeleton. Production: real captured flows per app.</p><ol class="steps">${sampleOnboarding().map(s => `<li>${s}</li>`).join("")}</ol>`;
+  if (t === "ads") $("#tab").innerHTML = `<div class="empty">No ad library data. Production source: Meta Ad Library (token required).</div>`;
+  if (t === "viral") $("#tab").innerHTML = `<div class="empty">No videos tracked. Production source: YouTube Data API.</div>`;
+  if (t === "kw") {
+    const kws = a.keywords || [];
+    $("#tab").innerHTML = kws.length
+      ? `<p class="mut">From title/genre. Not ranked search volume.</p><div class="card">${kws.map(esc).join(", ")}</div>`
+      : `<div class="empty">No keywords for this app.</div>`;
+  }
+  if (t === "onb") {
+    const shots = (a.screenshots || []).filter(u => String(u).startsWith("https://"));
+    $("#tab").innerHTML = shots.length
+      ? `<p class="mut">App Store screenshots (Apple lookup).</p>` + shots.map(u => `<img class="shot" src="${esc(u)}" alt="">`).join("")
+      : `<div class="empty">No screenshots in lookup.</div>`;
+  }
 }
 
 async function load() {
@@ -130,8 +144,11 @@ async function load() {
   }
   state.list = state.seeds;
   refreshGenres(); render();
-  const q = new URLSearchParams(location.search).get("q");
-  if (q) { $("#q").value = q; doSearch(q); }
+  const p = new URLSearchParams(location.search);
+  const q = p.get("q");
+  const id = p.get("id");
+  if (q) { $("#q").value = q; await doSearch(q); }
+  if (id) show(+id);
 }
 
 $("#go").onclick = () => doSearch();

@@ -19,6 +19,13 @@ with sync_playwright() as p:
     page.wait_for_selector("#detail h2")
     detail = page.locator("#detail").inner_text()
     assert "Pipeline estimate" in detail, detail
+    page.locator(".tabs button[data-t=onb]").click()
+    tab = page.locator("#tab").inner_text()
+    assert "App Store screenshots" in tab or "No screenshots" in tab, tab
+    page.locator(".tabs button[data-t=ads]").click()
+    ads = page.locator("#tab").inner_text()
+    assert "Meta Ad Library" in ads, ads
+    assert "demo" not in ads.lower() or "token required" in ads.lower()
     assert not errors, errors
     page.screenshot(path="data/verify.png", full_page=True)
     browser.close()

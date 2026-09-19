@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AppSignal — find what's winning in mobile apps (demo)</title>
-<meta name="description" content="Original demo prototype: search iOS apps live, compare demo estimates, explore ads/keywords/onboarding concepts.">
+<title>AppSignal — find what's winning in mobile apps</title>
+<meta name="description" content="Live US App Store charts with transparent download and revenue estimates.">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header class="hero">
-  <span class="badge">Original demo prototype · not affiliated with appkittie</span>
+  <span class="badge">Original prototype · not affiliated with appkittie</span>
   <h1>Find what's winning<br>in <em>mobile apps</em></h1>
-  <p class="mut">Live App Store search + transparent demo estimates. Revenue, downloads, ads, keywords, onboardings — concept build.</p>
+  <p class="mut">Live App Store charts + labeled estimates. Screenshots from Apple lookup. Ads and viral need API tokens.</p>
   <div class="toolbar">
     <input id="q" placeholder="Search apps, e.g. calorie tracker" aria-label="Search apps">
     <select id="genre" aria-label="Genre filter"><option value="">All genres</option></select>
@@ -19,6 +19,7 @@
       <option value="rev">Revenue (est.)</option>
       <option value="dl">Downloads (est.)</option>
       <option value="rating">Rating</option>
+      <option value="vel">Velocity</option>
     </select>
     <button id="go">Search</button>
   </div>
@@ -31,9 +32,9 @@
   </div>
   <div id="detail"></div>
   <div class="card"><b>What is real vs demo here?</b>
-    <p class="mut">Real: app names, sellers, categories, prices, ratings, and US chart ranks via Apple's public feeds, refreshed daily by the pipeline. Estimated: revenue/download numbers (rank+velocity model in data/METHOD.md). Demo: ads/keywords/onboarding samples. Production upgrades: Meta Ad Library + TikTok/Shorts pipelines and ASO rank tracking.</p></div>
+    <p class="mut">Real: names, sellers, categories, prices, ratings, US ranks, App Store screenshots. Estimated: revenue/downloads (rank+velocity in data/METHOD.md). Keywords: title/genre tokens, not ranked volume. Empty: ads (Meta token) and viral (YouTube key).</p></div>
 </main>
-<footer><p class="mut">AppSignal demo · all estimates labeled · built as an original concept, no third-party content reused.</p></footer>
+<footer><p class="mut">AppSignal · all estimates labeled · original concept, not affiliated with appkittie.</p></footer>
 <script src="data.js"></script>
 <script src="app.js"></script>
 </body>

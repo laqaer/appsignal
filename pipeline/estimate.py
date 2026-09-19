@@ -5,13 +5,25 @@ from db import conn
 # ponytail: power-curve heuristic; replace with fitted rank-demand model when you have ground truth.
 def dl_day(rank):
     return 20000 * (50.0 / max(1, rank)) ** 0.7
+
+def keywords(name, genre):
+    toks = [t for t in (name or "").lower().split() if len(t) > 2]
+    g = (genre or "").lower()
+    out, seen = [], set()
+    for t in toks + [g, f"best {g}", f"{g} app"]:
+        if t and t not in seen:
+            seen.add(t); out.append(t)
+    return out[:8]
+
 def main():
     db = conn(); now = int(time.time()); out = []
-    rows = db.execute("""SELECT a.trackId,a.name,a.seller,a.genre,a.price,a.artwork,
+    rows = db.execute("""SELECT a.trackId,a.name,a.seller,a.genre,a.price,a.artwork,a.screenshots,a.description,
         s.rank,s.chart,s.rating,s.rating_count,s.ts FROM apps a
         JOIN snapshots s ON s.trackId=a.trackId
         WHERE s.ts=(SELECT MAX(ts) FROM snapshots)""").fetchall()
-    for tid, name, seller, genre, price, art, rank, chart, rating, rc, ts in rows:
+    for tid, name, seller, genre, price, art, shots_json, desc, rank, chart, rating, rc, ts in rows:
+        try: shots = json.loads(shots_json) if shots_json else []
+        except (json.JSONDecodeError, TypeError): shots = []
         prev = db.execute("SELECT rating_count,ts FROM snapshots WHERE trackId=? AND chart=? AND ts<? ORDER BY ts DESC LIMIT 1",
             (tid, chart, ts)).fetchone()
         vel = round((rc - prev[0]) / max(1, (ts - prev[1]) / 86400), 1) if prev and rc is not None and prev[0] is not None and ts > prev[1] else None
@@ -21,7 +33,8 @@ def main():
         rev_mo = round((price or 0) * dl_mo * 0.7) if (price or 0) > 0 else round(dl_mo * (0.12 if chart == "topgrossingapplications" else 0.04))
         out.append({"trackId": tid, "name": name, "seller": seller, "genre": genre, "price": price,
             "artwork": art, "rating": rating, "rating_count": rc, "rank": rank, "chart": chart,
-            "rc_velocity": vel, "est_dl_mo": dl_mo, "est_rev_mo": rev_mo, "updated_ts": ts, "method": "rank+velocity v1"})
+            "rc_velocity": vel, "est_dl_mo": dl_mo, "est_rev_mo": rev_mo, "updated_ts": ts, "method": "rank+velocity v1",
+            "screenshots": shots, "description": desc or "", "keywords": keywords(name, genre)})
     # Apps on multiple charts would render twice; keep the grossing row (stronger revenue signal).
     out.sort(key=lambda x: (x["chart"] != "topgrossingapplications", x["rank"] or 99))
     seen, dedup = set(), []
@@ -29,8 +42,12 @@ def main():
         if x["trackId"] not in seen:
             seen.add(x["trackId"]); dedup.append(x)
     out = dedup
+    if len(out) < 40:
+        print(f"FAIL: only {len(out)} unique apps, keeping previous live.json"); sys.exit(1)
     live_path = os.path.join(os.path.dirname(__file__), "..", "data", "live.json")
-    json.dump(out, open(live_path, "w"))
+    tmp = live_path + ".tmp"
+    json.dump(out, open(tmp, "w"))
+    os.replace(tmp, live_path)
     md = ("# METHOD (rank+velocity v1)\nInputs: Apple RSS rank per chart + lookup rating/price.\n"
         f"Downloads: dl_day=20000*(50/rank)^0.7, x30 for month. Velocity: rating-count delta/day when 2+ snapshots exist.\n"
         "Revenue: paid=price*dl*0.7; free=grossing?0.12:0.04 USD per dl. Caps: none beyond curve.\n"
