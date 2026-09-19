@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+.DS_Store
+pipeline/__pycache__/
+data/verify.png
