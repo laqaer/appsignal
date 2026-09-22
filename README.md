@@ -2,7 +2,7 @@
 
 iOS chart intelligence prototype: Apple Top Charts ingested daily, enriched with iTunes lookup data, and scored with transparent, labeled estimates.
 
-**Live:** https://laqaer.github.io/appsignal/
+**Live:** https://myrmitis.github.io/appsignal/
 
 ## Run locally
 
