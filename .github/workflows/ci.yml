@@ -52,5 +52,5 @@ jobs:
       - name: Verify tracked files and stored data were not changed
         if: always()
         run: |
-          git diff --exit-code
-          test -z "$(git ls-files --others --exclude-standard -- data)"
+          git diff --exit-code HEAD
+          test -z "$(git ls-files --others -- data)"
