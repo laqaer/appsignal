@@ -1,0 +1,56 @@
+name: Read-only validation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: readonly-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: "22"
+          package-manager-cache: false
+      - name: Check JavaScript syntax without executing the app
+        run: |
+          node --check app.js
+          node --check data.js
+      - name: Parse Python and checked-in JSON without running the pipeline
+        run: |
+          python - <<'PY'
+          import ast
+          import json
+          from pathlib import Path
+
+          for path in sorted(Path("pipeline").glob("*.py")):
+              ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+          for name in ("seed.json", "data/live.json"):
+              with Path(name).open(encoding="utf-8") as source:
+                  json.load(source)
+          print("Python syntax and JSON parsing passed; no pipeline entrypoint executed.")
+          PY
+      - name: Run existing offline helper tests
+        run: python -m unittest discover -s pipeline -p 'test_*.py' -v
+      - name: Verify tracked files and stored data were not changed
+        if: always()
+        run: |
+          git diff --exit-code HEAD
+          test -z "$(git ls-files --others -- data)"
