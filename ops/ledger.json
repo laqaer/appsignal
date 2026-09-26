@@ -1,0 +1,31 @@
+{
+  "currency": "USD",
+  "mandate_started": "2026-09-26",
+  "as_of": "2026-09-26",
+  "profit_status": "provisional",
+  "sources": [
+    "This repository only. Stripe is not connected, so there is no processor reconciliation."
+  ],
+  "assumptions": [
+    "The public GitHub repository uses GitHub Actions and GitHub Pages. No invoice for those services was found. They are treated as $0 while the repository stays public.",
+    "No advertising, contractor, model-API, or new-hosting invoice was found for AppSignal."
+  ],
+  "inherited_revenue_usd": null,
+  "inherited_revenue_note": "No revenue evidence from before 2026-09-26 exists in this repository.",
+  "cash_collected_usd": 0,
+  "refunds_usd": 0,
+  "chargebacks_usd": 0,
+  "processing_fees_usd": 0,
+  "acquisition_spend_usd": 0,
+  "hosting_and_tooling_usd": 0,
+  "fulfillment_usd": 0,
+  "expenses_paid_usd": 0,
+  "costs_incurred_unbilled_usd": 0,
+  "customer_liabilities_usd": 0,
+  "net_operating_profit_usd": 0,
+  "net_operating_profit_definition": "cash_collected - refunds - chargebacks - processing_fees - acquisition_spend - hosting_and_tooling - fulfillment - expenses_paid",
+  "paying_customers": 0,
+  "retained_customers": 0,
+  "outstanding_obligations": [],
+  "orders": []
+}

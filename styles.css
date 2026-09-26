@@ -12,7 +12,10 @@ input, button, select { border-radius: 10px; border: 1px solid var(--line); padd
 input { flex: 2 1 220px; background: var(--card); color: var(--ink); }
 select { background: var(--card); color: var(--ink); }
 button { background: var(--acc); color: #04241a; font-weight: 700; cursor: pointer; border: none; }
-#tablewrap { overflow-x: auto; }
+#tablewrap, .tablewrap { overflow-x: auto; }
+a { color: var(--acc); }
+a.btn { display: inline-block; background: var(--acc); color: #04241a; font-weight: 700; text-decoration: none; border-radius: 10px; padding: 12px 16px; }
+a.btn:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; }
 th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); font-size: 14px; white-space: nowrap; }
 td:first-child { white-space: normal; }

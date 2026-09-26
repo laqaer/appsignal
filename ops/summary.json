@@ -1,0 +1,15 @@
+{
+  "snapshot_ts": 1790358753,
+  "sample_genre": "Games",
+  "sample_app_count": 47,
+  "checkout_open": false,
+  "price_usd": 19,
+  "cash_collected_usd": 0,
+  "net_operating_profit_usd": 0,
+  "profit_status": "provisional",
+  "paying_customers": 0,
+  "retained_customers": 0,
+  "outstanding_obligations": [],
+  "experiment_id": "001-category-brief",
+  "next_action": "Connect the owner Stripe account, create a $19 Payment Link with a required Genre field, and set ops/payments.json payment_link to that https://buy.stripe.com/ or https://checkout.stripe.com/ URL."
+}

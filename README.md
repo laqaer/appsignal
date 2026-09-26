@@ -24,6 +24,10 @@ python3 pipeline/ingest.py && python3 pipeline/estimate.py
 
 `dl_day = 20000 * (50/rank)^0.7`; paid revenue = `price * dl * 0.7`; free revenue = grossing x `0.12`, others x `0.04`; velocity = rating-count delta per day. See `data/METHOD.md`.
 
+## Genre brief
+
+`brief.html` is a one-time $19 offer for a single US genre: who entered, left, or moved across Top Free, Top Grossing, and Top Paid since the snapshot at least 7 days earlier. The largest genre is published free. Card checkout is closed until `ops/payments.json` contains a Stripe Payment Link. Estimates stay in a labeled appendix (`data/METHOD.md`). Operating state: `ops/STATE.md`.
+
 ## Real vs estimated vs demo
 
 - **Real:** chart ranks, app metadata, and App Store screenshots from Apple's public RSS + iTunes lookup.

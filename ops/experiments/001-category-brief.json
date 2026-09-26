@@ -1,0 +1,16 @@
+{
+  "id": "001-category-brief",
+  "status": "blocked_pending_checkout",
+  "recorded_at": "2026-09-26",
+  "hypothesis": "Indie iOS developers who will not buy a market-intelligence subscription will pay $19 once for a single-genre brief that shows who entered, left, or moved on the US Top Free, Top Grossing, and Top Paid charts since the stored snapshot from at least seven days earlier.",
+  "audience": "Indie iOS developers and small studios checking whether a US category is crowded before they build.",
+  "offer": "One-time US genre chart brief at $19. The largest genre stays free on the public page. The existing all-app chart table stays free.",
+  "channel": "The existing public site https://myrmitis.github.io/appsignal/brief.html",
+  "cost_ceiling_usd": 0,
+  "success_metric": "One paid order from a customer who is not the owner, reconciled from the payment processor.",
+  "secondary_observation": "GitHub genre-interest issues. They are not success and they are not revenue.",
+  "evaluation_window_days": 14,
+  "window_starts": "The UTC day card checkout first opens. While checkout is closed the experiment is blocked, not failed.",
+  "stop_or_pivot": "If checkout has been open for 14 days and paid orders are still zero, stop this price and packaging. Change the offer, the audience, or the price. Do not add features in order to avoid a zero. Do not paywall the existing free chart table.",
+  "why_this_offer": "Appfigures lists competitor intelligence well above $19, with public plan prices from $9.99/month for a limited Connect plan up to $149.99/month and higher for broader intelligence. The AppSignal chart table already gives away current single-chart rows. Rank movement across the three US top charts is computed from stored snapshots and is not on that table. Fulfillment is a local script with no new vendor spend."
+}

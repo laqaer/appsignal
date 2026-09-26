@@ -42,7 +42,7 @@ jobs:
 
           for path in sorted(Path("pipeline").glob("*.py")):
               ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
-          for name in ("seed.json", "data/live.json"):
+          for name in ("seed.json", "data/live.json", "data/brief.json", "ops/ledger.json", "ops/payments.json", "ops/summary.json", "ops/experiments/001-category-brief.json"):
               with Path(name).open(encoding="utf-8") as source:
                   json.load(source)
           print("Python syntax and JSON parsing passed; no pipeline entrypoint executed.")

@@ -1,0 +1,23 @@
+name: Genre brief interest
+description: Record which US App Store genre you want a chart brief for. This is not a payment.
+title: "Genre brief request: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Card checkout is not open. This issue records interest only. Do not include payment card numbers, bank details, or a full Stripe receipt.
+  - type: input
+    id: genre
+    attributes:
+      label: Genre
+      description: Use a genre name from the brief page, such as Games or Photo & Video.
+      placeholder: Games
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - label: I understand ranks and prices are observed from Apple's public charts, and any revenue figure is a labeled heuristic, not store-reported revenue.
+          required: true

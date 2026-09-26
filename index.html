@@ -11,7 +11,7 @@
 <header class="hero">
   <span class="badge">Original prototype · not affiliated with appkittie</span>
   <h1>Find what's winning<br>in <em>mobile apps</em></h1>
-  <p class="mut">Live App Store charts + labeled estimates. Screenshots from Apple lookup. Ads and viral need API tokens.</p>
+  <p class="mut">Live App Store charts + labeled estimates. Screenshots from Apple lookup. Ads and viral need API tokens. <a href="brief.html">Today's free genre brief</a> shows who moved. Another genre is $19 once. Card checkout is closed.</p>
   <div class="toolbar">
     <input id="q" placeholder="Search apps, e.g. calorie tracker" aria-label="Search apps">
     <select id="genre" aria-label="Genre filter"><option value="">All genres</option></select>
@@ -26,6 +26,11 @@
   <p class="mut" id="status" role="status" aria-live="polite"></p>
 </header>
 <main>
+  <div class="card" id="offer">
+    <b>Genre chart brief — $19 once</b>
+    <p class="mut">Who entered, left, or moved on the US Top Free, Top Grossing, and Top Paid charts for one genre. The largest genre is free. This table stays free. Card checkout is closed, so the site does not charge a card.</p>
+    <p><a class="btn" href="brief.html">Read today's free brief</a></p>
+  </div>
   <div id="tablewrap">
     <table><thead><tr><th>App</th><th>Category</th><th>Rev (est.)</th><th>Dls (est.)</th><th>Rating</th></tr></thead>
     <tbody id="rows"></tbody></table>
