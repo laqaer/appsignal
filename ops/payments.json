@@ -1,0 +1,8 @@
+{
+  "offer_id": "us-genre-chart-brief",
+  "price_usd": 19,
+  "currency": "USD",
+  "provider": "stripe",
+  "status": "not_connected",
+  "payment_link": null
+}

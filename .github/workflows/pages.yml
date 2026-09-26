@@ -25,8 +25,8 @@ jobs:
           enablement: true
       - run: |
           mkdir -p _site/data
-          cp index.html app.js data.js styles.css seed.json .nojekyll _site/
-          cp data/live.json data/METHOD.md _site/data/
+          cp index.html app.js data.js styles.css seed.json brief.html .nojekyll _site/
+          cp data/live.json data/brief.json data/METHOD.md _site/data/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
