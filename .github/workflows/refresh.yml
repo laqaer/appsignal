@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   refresh:
@@ -23,3 +24,7 @@ jobs:
           git add data/live.json data/METHOD.md data/appintel.db data/brief.json brief.html ops/summary.json
           git diff --cached --quiet || git commit -m "chore: refresh Apple chart estimates and genre brief"
           git push
+      - name: Publish the refreshed site
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --ref main
